@@ -13,6 +13,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 		if(isset($user)){
 			session_start();
 			$_SESSION['login_user'] = $id;
+			session_write_close();
 			header("location: admin_core.php");
 
 		}else{

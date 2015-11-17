@@ -44,8 +44,7 @@
 
 		$onePage = 15; // 한 페이지에 보여줄 게시글의 수.
 		$allPage = ceil($allPost / $onePage); //전체 페이지의 수
-		
-		if($page < 1 && $page > $allPage) {
+		if($page < 1 || $page > $allPage) {
 ?>
 			<script>
 				alert("존재하지 않는 페이지입니다.");

@@ -31,13 +31,7 @@ if(isset($bNo)) {
 	//틀리다면 메시지 출력 후 이전화면으로
 	//} else {
 	//	$msg = '비밀번호가 맞지 않습니다.';
-	?>
-		<script>
-			alert("<?php echo $msg?>");
-			history.back();
-		</script>
-	<?php
-		exit;
+		//exit;
 	
 	
 //글 등록
@@ -56,7 +50,7 @@ if(empty($msg)) {
 		if(empty($bNo)) {
 			$bNo = $db->insert_id;
 		}
-		$replaceURL = './admin_core.php?window=view?bno=' . $bNo;
+		$replaceURL = './admin_core.php?window=view&bno=' . $bNo;
 	} else {
 		$msg = '글을 ' . $msgState . '하지 못했습니다.';
 ?>

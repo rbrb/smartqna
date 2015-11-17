@@ -2,8 +2,8 @@
 	require_once("dbconfig.php");
 
 	//$_POST['bno']이 있을 때만 $bno 선언
-	if(isset($_POST['bno'])) {
-		$bNo = $_POST['bno'];
+	if(isset($_GET['bno'])) {
+		$bNo = $_GET['bno'];
 	}
 
 	//$bPassword = $_POST['bPassword'];
@@ -21,22 +21,14 @@ if(isset($bNo)) {
 	//틀리다면 메시지 출력 후 이전화면으로
 	//} else {
 	//	$msg = '비밀번호가 맞지 않습니다.';
-	?>
-		<script>
-			alert("<?php echo $msg?>");
-			history.back();
-		</script>
-	<?php
-		exit;
 	}
-}
 
 	$result = $db->query($sql);
 	
 //쿼리가 정상 실행 됐다면,
 if($result) {
 	$msg = '정상적으로 글이 삭제되었습니다.';
-	$replaceURL = './admin_core.php';
+	$replaceURL = 'admin_core.php';
 } else {
 	$msg = '글을 삭제하지 못했습니다.';
 ?>

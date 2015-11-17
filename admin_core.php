@@ -1,7 +1,6 @@
 <?php 
-	//session_start();
+	session_start();
 	require 'rb-p533.php';
-	echo session_id();
 	//echo $_SESSION['login_user'];
 	//if(!isset($_SESSION['uid'])) {
 	//if(!session_is_registered("uid")){

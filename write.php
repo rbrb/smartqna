@@ -31,7 +31,7 @@
 									//echo $row['b_id'];
 									echo $_SESSION['login_user'];
 								//} else { ?>
-									<input type="hidden" name="bID" id="bID">
+									<input type="hidden" name="bID" id="bID" value="<?php echo $_SESSION['login_user']?>">
 								<?php //} ?>
 							</td>
 						</tr>
@@ -49,7 +49,7 @@
 					<button type="submit" class="btnSubmit btn">
 						<?php echo isset($bNo)?'수정':'작성'?>
 					</button>
-					<a href="admin_core.php" class="btnList btn">목록</a>
+					<a href="#" onClick="javascript:history.go(-1); return false ; " class="btnList btn">취소</a>
 				</div>
 			</form>
 		</div>
