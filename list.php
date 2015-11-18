@@ -2,9 +2,16 @@
 	require_once("dbconfig.php");
 	
 	if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
+	{
 		$wrapper = "admin_core.php";
+		$isAdmin = true;
+	}
 	else if (strpos($_SERVER['REQUEST_URI'], "notice.php"))
+	{
 		$wrapper = "notice.php";
+		$isAdmin = false;
+	}
+	else{}
 		
 	/* 페이징 시작 */
 	//페이지 get 변수가 있다면 받아오고, 없다면 1페이지를 보여준다.
@@ -73,34 +80,40 @@
 		
 		$prevPage = (($currentSection - 1) * $oneSection); //이전 페이지, 11~20일 때 이전을 누르면 10 페이지로 이동.
 		$nextPage = (($currentSection + 1) * $oneSection) - ($oneSection - 1); //다음 페이지, 11~20일 때 다음을 누르면 21 페이지로 이동.
-		
-		$paging = '<ul>'; // 페이징을 저장할 변수
+
+		if($isAdmin)
+			$paging = '<ul>'; // 페이징을 저장할 변수
+		else
+			$paging = "<ul class='pagination'>";
 		
 		//첫 페이지가 아니라면 처음 버튼을 생성
 		if($page != 1) { 
-			$paging .= '<li class="page page_start"><a href="admin_core.php?page=1' . $subString . '">처음</a></li>';
+			$paging .= '<li class="page page_start"><a href="'.$wrapper.'?page=1' . $subString . '">처음</a></li>';
 		}
 		//첫 섹션이 아니라면 이전 버튼을 생성
 		if($currentSection != 1) { 
-			$paging .= '<li class="page page_prev"><a href="admin_core.php?page=' . $prevPage . $subString . '">이전</a></li>';
+			$paging .= '<li class="page page_prev"><a href="'.$wrapper.'?page=' . $prevPage . $subString . '">이전</a></li>';
 		}
 		
 		for($i = $firstPage; $i <= $lastPage; $i++) {
 			if($i == $page) {
-				$paging .= '<li class="page current">' . $i . '</li>';
+				if($isAdmin)
+					$paging .= '<li class="page current">' . $i . '</li>';
+				else
+					$paging .= '<li class="page"><a href="'.$wrapper.'?page=' . $i . $subString . '">' . $i . '</a></li>';
 			} else {
-				$paging .= '<li class="page"><a href="admin_core.php?page=' . $i . $subString . '">' . $i . '</a></li>';
+				$paging .= '<li class="page"><a href="'.$wrapper.'?page=' . $i . $subString . '">' . $i . '</a></li>';
 			}
 		}
 		
 		//마지막 섹션이 아니라면 다음 버튼을 생성
 		if($currentSection != $allSection) { 
-			$paging .= '<li class="page page_next"><a href="admin_core.php?page=' . $nextPage . $subString . '">다음</a></li>';
+			$paging .= '<li class="page page_next"><a href="'.$wrapper.'?page=' . $nextPage . $subString . '">다음</a></li>';
 		}
 		
 		//마지막 페이지가 아니라면 끝 버튼을 생성
 		if($page != $allPage) { 
-			$paging .= '<li class="page page_end"><a href="admin_core.php?page=' . $allPage . $subString . '">끝</a></li>';
+			$paging .= '<li class="page page_end"><a href="'.$wrapper.'?page=' . $allPage . $subString . '">끝</a></li>';
 		}
 		$paging .= '</ul>';
 		
@@ -114,12 +127,12 @@
 		$result = $db->query($sql);
 	}
 ?>
-<?php if (!strcmp($wrapper, "admin_core.php")) {?>
+<?php if ($isAdmin) {?>
 	<link rel="stylesheet" href="./css/board.css" />
 	<?php }?>
 	<article class="boardArticle">
 		<div id="boardList">
-			<table <?php if (strcmp($wrapper, "admin_core.php")) {?>class = "table table-bordered"<?php }?>>
+			<table <?php if (!$isAdmin) {?>class = "table table-bordered"<?php }?>>
 				<thead>
 					<tr>
 						<th scope="col" class="no">번호</th>
@@ -159,13 +172,13 @@
 						?>
 				</tbody>
 			</table>
-			<div class="btnSet">
+			<div class="btnSet<?php if (!$isAdmin) {?> pull-right<?php }?>">
 				<a href="<?php echo $wrapper; ?>?window=write" class="btnWrite btn">글쓰기</a>
 			</div>
-			<div class="paging">
+			<div class="paging<?php if (!$isAdmin) echo " text-center";?>">
 				<?php echo $paging; ?>
 			</div>
-			<div class="searchBox">
+			<div class="searchBox<?php if (!$isAdmin) echo " text-center";?>">
 				<form action="<?php echo $wrapper; ?>" method="get">
 					<select name="searchColumn">
 						<option <?php echo $searchColumn=='b_title'?'selected="selected"':null?> value="b_title">제목</option>

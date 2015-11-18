@@ -1,10 +1,17 @@
 <?php
 	require_once("dbconfig.php");
 	
-	if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
+if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
+	{
 		$wrapper = "admin_core.php";
-		else if (strpos($_SERVER['REQUEST_URI'], "notice.php"))
-			$wrapper = "notice.php";
+		$isAdmin = true;
+	}
+	else if (strpos($_SERVER['REQUEST_URI'], "notice.php"))
+	{
+		$wrapper = "notice.php";
+		$isAdmin = false;
+	}
+	else{}
 
 	//$_GET['bno']이 있을 때만 $bno 선언
 	if(isset($_GET['bno'])) {
@@ -17,7 +24,7 @@
 		$row = $result->fetch_assoc();
 	}
 ?>
-	<?php if (!strcmp($wrapper, "admin_core.php")) {?>
+	<?php if ($isAdmin) {?>
 	<link rel="stylesheet" href="./css/board.css" />
 	<?php }?>
 	<article class="boardArticle">
