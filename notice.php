@@ -1,17 +1,16 @@
 <?php
-session_start();
+session_start ();
 require 'rb-p533.php';
-if(!isset($_SESSION['login_user'])) {
-//if (! session_is_registered ( "aid" ) || !isset($_SESSION['login_user']) ) {
+if (!isset ( $_SESSION['login_user'] )) {
 	header ( "location:agent.php" );
 }
 
-R::setup ( 'mysql:host=localhost;dbname=smartqna', 'root', '' );
-$aid	= $_SESSION['login_user'];
-$agent = R::findOne('agent',"aid = '$aid'");
+R::setup ( 'mysql:host=localhost; dbname=smartqna', 'root', '' );
+$allArticles = R::findAll ('board_notification', 'ORDER BY id DESC');
+$allArticles = array_values($allArticles);
+//$article = $allArticles[0];
 ?>
 
-<html lang="en">
 <html lang="en">
 
 <head>
@@ -38,10 +37,6 @@ $agent = R::findOne('agent',"aid = '$aid'");
 
     <!-- Custom Fonts -->
     <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	<style>
-		.basicInfoLabel {
-		}
-	</style>
 
 </head>
 
@@ -83,14 +78,14 @@ $agent = R::findOne('agent',"aid = '$aid'");
         	<br>
              <div class="row">
                 <div class="col-lg-8 col-md-8">
-                    <div class="panel panel-green">
+                    <div class="panel panel-primary">
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-3">
                                     <i class="fa fa-support fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">기본 정보</div>
+                                    <div class="huge">공지사항</div>
                                     
                                 </div>
                             </div>
@@ -102,43 +97,17 @@ $agent = R::findOne('agent',"aid = '$aid'");
 	            <div class="col-lg-8">
 	                    <div class="panel panel-default">
 	                        <div class="panel-body">
-								<form role="form">
-								    <div class="form-group input-group">
-                            	<span class="input-group-addon basicInfoLabel">&nbsp;&nbsp;&nbsp;&nbsp;아이디&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                             	<p class="form-control">	
-						 					<?php echo $_SESSION['login_user']; ?>
-										</p>
-                                         
-                            </div>
-                            <div class="form-group input-group">
-                            	<span class="input-group-addon">&nbsp;&nbsp;&nbsp;회사이름&nbsp;&nbsp;</span>
-                              	<p class="form-control">
-					 						<?php
-												echo "$agent->oname";
-											?>
-											</p>
-                            </div>
-                            <div class="form-group input-group">
-                            	<span class="input-group-addon">대표자 이름</span>
-                              <p class="form-control">
-					 						<?php echo "$agent->name"; ?>
-										</p>
-                            </div>
-								    <div class="form-group input-group">
-                            	<span class="input-group-addon">&nbsp;&nbsp;&nbsp;&nbsp;연락처&nbsp;&nbsp;&nbsp;&nbsp;</span>	
-                              <p class="form-control">
-					 						<?php echo "$agent->hp"; ?>
-										</p>
-                            </div>
-                            <div class="form-group input-group">
-                            	<span class="input-group-addon">&nbsp;&nbsp; 담당지역&nbsp;&nbsp; </span>
-                              <p class="form-control">
-					 						<?php echo "$agent->lv0/$agent->lv1"; ?>
-										</p>
-                            </div>
-								</form>
-							</div>
-						</div>
+	                        
+	                        <?php
+	                        if(isset($_GET['window'])) {
+	                        	$window = $_GET['window'].".php";
+	                        	require_once ($window);
+	                        }
+	                        else
+	                        	require_once ("list.php");
+	                        ?>
+	                        
+	                        </div>
 					</div>
             </div>
             <!-- /.row -->

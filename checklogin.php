@@ -26,9 +26,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 		R::dispense('agent');
 		$agent = R::findOne('agent',"aid = '$id' AND pass = PASSWORD('$pass')");
 		if(isset($agent)){
-			if (PHP_VERSION < '5.3.0')
-				session_register('aid');
+			session_start();
 			$_SESSION['login_user'] = $id;
+			session_write_close();
 		    echo $agent;
 			header("location: basicInfo.php");
 		}else{

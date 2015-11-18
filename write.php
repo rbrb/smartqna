@@ -1,5 +1,10 @@
 <?php
 	require_once("dbconfig.php");
+	
+	if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
+		$wrapper = "admin_core.php";
+		else if (strpos($_SERVER['REQUEST_URI'], "notice.php"))
+			$wrapper = "notice.php";
 
 	//$_GET['bno']이 있을 때만 $bno 선언
 	if(isset($_GET['bno'])) {
@@ -7,15 +12,17 @@
 	}
 		 
 	if(isset($bNo)) {
-		$sql = 'select b_title, b_content, b_id from board_notification where b_no = ' . $bNo;
+		$sql = 'select b_title, b_content, b_id from board_notification where id = ' . $bNo;
 		$result = $db->query($sql);
 		$row = $result->fetch_assoc();
 	}
 ?>
+	<?php if (!strcmp($wrapper, "admin_core.php")) {?>
 	<link rel="stylesheet" href="./css/board.css" />
+	<?php }?>
 	<article class="boardArticle">
 		<div id="boardWrite">
-			<form action="admin_core.php?window=write_update" method="post">
+			<form action="<?php echo $wrapper; ?>?window=write_update" method="post">
 				<?php
 				if(isset($bNo)) {
 					echo '<input type="hidden" name="bno" value="' . $bNo . '">';

@@ -1,4 +1,6 @@
 <?php
+// not used anymore
+
 	require_once("dbconfig.php");
 
 	//$_GET['bno']이 있어야만 글삭제가 가능함.
@@ -10,7 +12,7 @@
 	<article class="boardArticle">
 		<?php
 			if(isset($bNo)) {
-				$sql = 'select count(b_no) as cnt from board_notification where b_no = ' . $bNo;
+				$sql = 'select count(id) as cnt from board_notification where id = ' . $bNo;
 				$result = $db->query($sql);
 				$row = $result->fetch_assoc();
 				if(empty($row['cnt'])) {
@@ -23,7 +25,7 @@
 			exit;
 				}
 				
-				$sql = 'select b_title from board_notification where b_no = ' . $bNo;
+				$sql = 'select b_title from board_notification where id = ' . $bNo;
 				$result = $db->query($sql);
 				$row = $result->fetch_assoc();
 		?>

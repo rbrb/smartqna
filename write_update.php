@@ -1,5 +1,10 @@
 <?php
 	require_once("dbconfig.php");
+	
+	if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
+		$wrapper = "admin_core.php";
+		else if (strpos($_SERVER['REQUEST_URI'], "notice.php"))
+			$wrapper = "notice.php";
 
 	//$_POST['bno']이 있을 때만 $bno 선언
 	if(isset($_POST['bno'])) {
@@ -26,7 +31,7 @@ if(isset($bNo)) {
 	
 	//비밀번호가 맞다면 업데이트 쿼리 작성
 	//if($row['cnt']) {
-		$sql = 'update board_notification set b_title="' . $bTitle . '", b_content="' . $bContent . '" where b_no = ' . $bNo;
+		$sql = 'update board_notification set b_title="' . $bTitle . '", b_content="' . $bContent . '" where id = ' . $bNo;
 		$msgState = '수정';
 	//틀리다면 메시지 출력 후 이전화면으로
 	//} else {
@@ -36,7 +41,7 @@ if(isset($bNo)) {
 	
 //글 등록
 } else {
-	$sql = 'insert into board_notification (b_no, b_title, b_content, b_date, b_hit, b_id) values(null, "' . $bTitle . '", "' . $bContent . '", "' . $date . '", 0, "' . $bID . '" )';
+	$sql = 'insert into board_notification (id, b_title, b_content, b_date, b_hit, b_id) values(null, "' . $bTitle . '", "' . $bContent . '", "' . $date . '", 0, "' . $bID . '" )';
 	$msgState = '등록';
 }
 
@@ -50,7 +55,7 @@ if(empty($msg)) {
 		if(empty($bNo)) {
 			$bNo = $db->insert_id;
 		}
-		$replaceURL = './admin_core.php?window=view&bno=' . $bNo;
+		$replaceURL = $wrapper.'?window=view&bno=' . $bNo;
 	} else {
 		$msg = '글을 ' . $msgState . '하지 못했습니다.';
 ?>

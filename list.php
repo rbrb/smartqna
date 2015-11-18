@@ -1,6 +1,11 @@
 <?php
 	require_once("dbconfig.php");
 	
+	if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
+		$wrapper = "admin_core.php";
+	else if (strpos($_SERVER['REQUEST_URI'], "notice.php"))
+		$wrapper = "notice.php";
+		
 	/* 페이징 시작 */
 	//페이지 get 변수가 있다면 받아오고, 없다면 1페이지를 보여준다.
 	if(isset($_GET['page'])) {
@@ -105,14 +110,16 @@
 		$currentLimit = ($onePage * $page) - $onePage; //몇 번째의 글부터 가져오는지
 		$sqlLimit = ' limit ' . $currentLimit . ', ' . $onePage; //limit sql 구문
 		
-		$sql = 'select * from board_notification' . $searchSql . ' order by b_no desc' . $sqlLimit; //원하는 개수만큼 가져온다. (0번째부터 20번째까지
+		$sql = 'select * from board_notification' . $searchSql . ' order by id desc' . $sqlLimit; //원하는 개수만큼 가져온다. (0번째부터 20번째까지
 		$result = $db->query($sql);
 	}
 ?>
+<?php if (!strcmp($wrapper, "admin_core.php")) {?>
 	<link rel="stylesheet" href="./css/board.css" />
+	<?php }?>
 	<article class="boardArticle">
 		<div id="boardList">
-			<table>
+			<table <?php if (strcmp($wrapper, "admin_core.php")) {?>class = "table table-bordered"<?php }?>>
 				<thead>
 					<tr>
 						<th scope="col" class="no">번호</th>
@@ -138,9 +145,9 @@
 									$row['b_date'] = $date;
 						?>
 						<tr>
-							<td class="no"><?php echo $row['b_no']?></td>
+							<td class="no"><?php echo $row['id']?></td>
 							<td class="title">
-								<a href="admin_core.php?window=view&bno=<?php echo $row['b_no']?>&page=<?php echo $page?>"><?php echo $row['b_title']?></a>
+								<a href="<?php echo $wrapper; ?>?window=view&bno=<?php echo $row['id']?>&page=<?php echo $page?>"><?php echo $row['b_title']?></a>
 							</td>
 							<td class="author"><?php echo $row['b_id']?></td>
 							<td class="date"><?php echo $row['b_date']?></td>
@@ -153,13 +160,13 @@
 				</tbody>
 			</table>
 			<div class="btnSet">
-				<a href="admin_core.php?window=write" class="btnWrite btn">글쓰기</a>
+				<a href="<?php echo $wrapper; ?>?window=write" class="btnWrite btn">글쓰기</a>
 			</div>
 			<div class="paging">
 				<?php echo $paging; ?>
 			</div>
 			<div class="searchBox">
-				<form action="admin_core.php" method="get">
+				<form action="<?php echo $wrapper; ?>" method="get">
 					<select name="searchColumn">
 						<option <?php echo $searchColumn=='b_title'?'selected="selected"':null?> value="b_title">제목</option>
 						<option <?php echo $searchColumn=='b_content'?'selected="selected"':null?> value="b_content">내용</option>

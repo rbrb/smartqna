@@ -1,5 +1,10 @@
 <?php
 	require_once("dbconfig.php");
+	
+	if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
+		$wrapper = "admin_core.php";
+		else if (strpos($_SERVER['REQUEST_URI'], "notice.php"))
+			$wrapper = "notice.php";
 
 	//$_POST['bno']이 있을 때만 $bno 선언
 	if(isset($_GET['bno'])) {
@@ -17,7 +22,7 @@ if(isset($bNo)) {
 	
 	//비밀번호가 맞다면 삭제 쿼리 작성
 	//if($row['cnt']) {
-		$sql = 'delete from board_notification where b_no = ' . $bNo;
+		$sql = 'delete from board_notification where id = ' . $bNo;
 	//틀리다면 메시지 출력 후 이전화면으로
 	//} else {
 	//	$msg = '비밀번호가 맞지 않습니다.';
@@ -28,7 +33,7 @@ if(isset($bNo)) {
 //쿼리가 정상 실행 됐다면,
 if($result) {
 	$msg = '정상적으로 글이 삭제되었습니다.';
-	$replaceURL = 'admin_core.php';
+	$replaceURL = $wrapper;
 } else {
 	$msg = '글을 삭제하지 못했습니다.';
 ?>

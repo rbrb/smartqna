@@ -79,6 +79,9 @@ $agent = R::findOne('agent',"aid = '$aid'");
                         <li>
                             <a href="EnterSales.php"><i class="fa fa-table fa-fw"></i> 매출 입력</a>
                         </li>
+                        <li>
+                        	<a href="notice.php"><i class="fa fa-bell fa-fw"></i> 공지사항</a>
+                        </li>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
