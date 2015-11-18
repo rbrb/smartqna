@@ -62,6 +62,7 @@ if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
 		</div>
 	</article>
 	<?php } else {?>
+	<div id="container" style="font-size:12px">
 <div class="page-header">
 	<div class="panel panel-info">
 		<div class="panel-heading">
@@ -87,5 +88,6 @@ if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
 				<?php }?>
 				<a href="<?php echo $wrapper."?page=".$page;?>" class="btnList btn">목록</a>
 	</div>
+</div>
 </div>
 <?php }?>

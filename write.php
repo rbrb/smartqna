@@ -26,7 +26,6 @@ if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
 ?>
 	<?php if ($isAdmin) {?>
 	<link rel="stylesheet" href="./css/board.css" />
-	<?php }?>
 	<article class="boardArticle">
 		<div id="boardWrite">
 			<form action="<?php echo $wrapper; ?>?window=write_update" method="post">
@@ -68,3 +67,6 @@ if(strpos($_SERVER['REQUEST_URI'], "admin_core.php"))
 			</form>
 		</div>
 	</article>
+	<?php } else {?>
+	
+	<?php }?>

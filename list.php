@@ -129,10 +129,9 @@
 ?>
 <?php if ($isAdmin) {?>
 	<link rel="stylesheet" href="./css/board.css" />
-	<?php }?>
 	<article class="boardArticle">
 		<div id="boardList">
-			<table <?php if (!$isAdmin) {?>class = "table table-bordered"<?php }?>>
+			<table>
 				<thead>
 					<tr>
 						<th scope="col" class="no">번호</th>
@@ -172,13 +171,13 @@
 						?>
 				</tbody>
 			</table>
-			<div class="btnSet<?php if (!$isAdmin) {?> pull-right<?php }?>">
+			<div class="btnSet">
 				<a href="<?php echo $wrapper; ?>?window=write" class="btnWrite btn">글쓰기</a>
 			</div>
-			<div class="paging<?php if (!$isAdmin) echo " text-center";?>">
+			<div class="paging">
 				<?php echo $paging; ?>
 			</div>
-			<div class="searchBox<?php if (!$isAdmin) echo " text-center";?>">
+			<div class="searchBox">
 				<form action="<?php echo $wrapper; ?>" method="get">
 					<select name="searchColumn">
 						<option <?php echo $searchColumn=='b_title'?'selected="selected"':null?> value="b_title">제목</option>
@@ -191,3 +190,73 @@
 			</div>
 		</div>
 	</article>
+	
+	<?php } else {?>
+	<table class="table table-condensed table-hover" style="font-size:12px">
+	<thead>
+		<tr>
+			<th class="text-center">번호</th>
+			<th>제목</th>
+			<th>글쓴이</th>
+			<th class="text-center">작성일</th>
+			<th class="text-center">조회</th> 
+		</tr>
+	</thead>
+	<tbody>
+	<?php
+						if(isset($emptyData)) {
+							echo '<p class="lead text-center text-muted">게시물이 없습니다.</p>';
+						} else {
+							while($row = $result->fetch_assoc())
+							{
+								$datetime = explode(' ', $row['b_date']);
+								$date = $datetime[0];
+								$time = $datetime[1];
+								if($date == Date('Y-m-d'))
+									$row['b_date'] = $time;
+								else
+									$row['b_date'] = $date;
+						?>
+						
+		<tr>
+		    <td class="text-center">
+				<?=!strcmp($_SESSION['login_user'], $row['b_id']) ? '<span class="text-danger"><strong>'.$row['id'].'</strong></span>' : $row['id']?>
+		    </td>
+		    <td>
+		    <a href="<?=$wrapper?>?window=view&bno=<?=$row['id']?>&page=<?=$page?>"><?=$row['b_title']?></a>
+		    </td>
+		    <td><?=$row['b_id']?></td>
+		    <td class="text-center"><?=$row['b_date']?></td>
+		    <td class="text-center"><?=$row['b_hit']?></td>
+		</tr>
+		<?php
+							}
+						}
+						?>
+	</tbody>
+</table>
+
+<br/>
+
+<form name="fsearch" method="get" action="<?php echo $wrapper; ?>">
+	<div class="clearfix">
+		<select name="searchColumn" class="form-control input-sm pull-left" style="display:inline-block; width:auto;">
+		    <option value="b_title">제목</option>
+		    <option value="b_content">내용</option>
+		    <option value="b_id">작성자</option>
+		</select>
+		<div class="pull-left" style="display:inline-block; width:200px !important;">
+			<div class="input-group">
+				<input name="searchText" class="form-control input-sm" maxlength="15" value="<?php echo isset($searchText)?$searchText:null?>" />
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-sm btn-primary">검색</button>
+				</span>
+			</div>
+		</div>
+
+		<div class="pull-right">
+			<?=$paging?>
+		</div>
+	</div>
+</form>
+	<?php }?>
