@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- 생성 시간: 15-11-17 11:04
+-- 생성 시간: 15-11-18 10:40
 -- 서버 버전: 10.1.8-MariaDB
 -- PHP 버전: 5.6.14
 
@@ -65,7 +65,7 @@ INSERT INTO `agent` (`id`, `aid`, `name`, `oname`, `hp`, `op`, `email`, `lv0`, `
 --
 
 CREATE TABLE `board_notification` (
-  `b_no` int(10) UNSIGNED NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `b_title` varchar(100) NOT NULL,
   `b_content` text NOT NULL,
   `b_date` datetime NOT NULL,
@@ -77,10 +77,13 @@ CREATE TABLE `board_notification` (
 -- 테이블의 덤프 데이터 `board_notification`
 --
 
-INSERT INTO `board_notification` (`b_no`, `b_title`, `b_content`, `b_date`, `b_hit`, `b_id`) VALUES
-(1, 'fsda', 'dfsaadfssafd', '2015-11-16 13:10:52', 1, 'afs'),
-(2, 'sdfa', 'sadffsda', '2015-11-16 13:13:30', 1, 'fdsa'),
-(3, 'wrqerewq', 'rweqrwqe', '2015-11-16 13:13:36', 1, 'reqw');
+INSERT INTO `board_notification` (`id`, `b_title`, `b_content`, `b_date`, `b_hit`, `b_id`) VALUES
+(1, 'fsda', 'dfsaadfssafd', '2015-11-16 13:10:52', 4, 'afs'),
+(2, 'sdfa', 'sadffsda', '2015-11-16 13:13:30', 2, 'fdsa'),
+(3, 'wrqerewq', 'rweqrwqe', '2015-11-16 13:13:36', 20, 'reqw'),
+(4, 'afsddfsa', 'fsdafdsafdsafdsa', '2015-11-17 12:21:43', 8, 'toonysam'),
+(5, 'aa', 'aaaa', '2015-11-17 12:23:21', 6, 'toonysam'),
+(6, 'bb', 'bbbb', '2015-11-17 12:25:11', 33, 'toonysam');
 
 -- --------------------------------------------------------
 
@@ -3195,7 +3198,7 @@ ALTER TABLE `agent`
 -- 테이블의 인덱스 `board_notification`
 --
 ALTER TABLE `board_notification`
-  ADD PRIMARY KEY (`b_no`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- 테이블의 인덱스 `book`
@@ -3263,7 +3266,7 @@ ALTER TABLE `agent`
 -- 테이블의 AUTO_INCREMENT `board_notification`
 --
 ALTER TABLE `board_notification`
-  MODIFY `b_no` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- 테이블의 AUTO_INCREMENT `book`
 --
