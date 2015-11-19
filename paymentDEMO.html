@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>결제 데모</title>
+
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<link
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha256-MfvZlkHCEqatNoGiOXveE8FIwMzZg4W85qfrfIFBfYc= sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ=="
+	crossorigin="anonymous">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"
+	integrity="sha256-Sk3nkD6mLTMOF0EOpNtsIry+s1CsaqQC1rVLTAy+0yc= sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ=="
+	crossorigin="anonymous"></script>
+
+<script type="text/javascript"
+	src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+<script type="text/javascript"
+	src="https://service.iamport.kr/js/iamport.payment.js"></script>
+
+<style type="text/css">
+</style>
+<script>
+	function callback() {
+		//loaded
+		$(function() {
+			document.frm_payment.merchant_uid.value = 'merchant_'
+					+ new Date().getTime();
+			document.frm_payment.vbank_due.value = moment().add(2, 'day')
+					.format('YYYYMMDD');
+
+			$('#requester').click(function() {
+				var frm = document.frm_payment;
+				var IMP = window.IMP;
+
+				IMP.init('iamport');
+
+				IMP.request_pay({
+					pay_method : frm.pay_method.value,
+					escrow : escrow,
+					merchant_uid : frm.merchant_uid.value,
+					name : frm.name.value,
+					amount : frm.amount.value,
+					buyer_email : frm.buyer_email.value,
+					buyer_name : frm.buyer_name.value,
+					buyer_tel : frm.buyer_tel.value,
+					buyer_addr : frm.buyer_addr.value,
+					buyer_postcode : frm.buyer_postcode.value,
+					vbank_due : frm.vbank_due.value,
+					app_scheme : 'iamporttest'
+				}, function(rsp) {
+					if (rsp.success) {
+						var msg = '결제가 완료되었습니다.<br>';
+						msg += '고유ID : ' + rsp.imp_uid + '<br>';
+						msg += '상점 거래ID : ' + rsp.merchant_uid + '<br>';
+						msg += '결제 금액 : ' + rsp.paid_amount + '<br>';
+
+						if (rsp.pay_method === 'card') {
+							msg += '카드 승인번호 : ' + rsp.apply_num + '<br>';
+						} else if (rsp.pay_method === 'vbank') {
+							msg += '가상계좌 번호 : ' + rsp.vbank_num + '<br>';
+							msg += '가상계좌 은행 : ' + rsp.vbank_name + '<br>';
+							msg += '가상계좌 예금주 : ' + rsp.vbank_holder + '<br>';
+							msg += '가상계좌 입금기한 : ' + rsp.vbank_date + '<br>';
+						}
+					} else {
+						var msg = '결제에 실패하였습니다.' + '<br>';
+						msg += '에러내용 : ' + rsp.error_msg + '<br>';
+					}
+
+					$('#responser').html(msg).show();
+					setTimeout(function() {
+						$('#responser').hide();
+						location.reload();
+					}, 100000);
+				});
+
+				return false;
+			});
+		});
+	}
+</script>
+</head>
+<body>
+	<div class="container">
+		<form name="frm_payment" id="frm_payment" class="form">
+			<table class="table table-hover">
+				<tr>
+					<td class="checkbox"><input type="checkbox"></td>
+					<td><img src="upload_image/국어.png" class="img-responsive"
+						alt="no image found"></td>
+					<td>수능특강 구우욱어</td>
+					<td>￦ 10,000</td>
+				</tr>
+				<tr>
+					<td class="checkbox"><input type="checkbox"></td>
+					<td><img src="upload_image/수학.png" class="img-responsive"
+						alt="no image found"></td>
+					<td>수능특강 수우우흐으앙ㄱ</td>
+					<td>￦ 10,000</td>
+				</tr>
+				<tr>
+					<td class="checkbox"><input type="checkbox"></td>
+					<td><img src="upload_image/영어.png" class="img-responsive"
+						alt="no image found"></td>
+					<td>수능특강 EEENGLISHHHㅋ</td>
+					<td>￦ 10,000</td>
+				</tr>
+			</table>
+			<button id="requester" type="submit"
+				class="btn btn-default center-block">결제하기</button>
+		</form>
+	</div>
+</body>
+</html>
+<script>
+	
+</script>
