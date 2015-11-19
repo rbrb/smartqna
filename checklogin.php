@@ -22,14 +22,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 			echo 'window.location.href="admin.php";';
 			echo '</script>';
 		}
-	}else if($_POST["option"]=="agent"){
+	}
+	else if($_POST["option"]=="agent"){
 		R::dispense('agent');
 		$agent = R::findOne('agent',"aid = '$id' AND pass = PASSWORD('$pass')");
 		if(isset($agent)){
 			session_start();
 			$_SESSION['login_user'] = $id;
 			session_write_close();
-		    echo $agent;
 			header("location: basicInfo.php");
 		}else{
 			echo '<script language="javascript">';
@@ -37,10 +37,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 			echo 'window.location.href="agent.php";';
 			echo '</script>';
 		}
-	}else{
+	}
+	else if($_POST["option"] == "user")
+	{
+		R::dispense('user');
+		$user = R::findOne('user',"uid = '$id' AND pass = PASSWORD('$pass')");
+		if(isset($user)){
+			session_start();
+			$_SESSION['login_user'] = $id;
+			session_write_close();
+			header("location: intro.php");
+		}else{
+			echo '<script language="javascript">';
+			echo 'alert("아이디 또는 패스워드가 잘못되었습니다");';
+			echo 'window.location.href="userLogIn.php";';
+			echo '</script>';
+		}
+	}
+	else{
 			echo '<script language="javascript">';
 			echo 'alert("사용자 타입을 선택해 주세요");';
-			echo 'window.location.href="agent.php";';
+			echo 'window.location.href="intro.php";';
 			echo '</script>';
 	}
 }
