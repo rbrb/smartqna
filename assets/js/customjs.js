@@ -79,7 +79,7 @@ $(function() {
 		IMP.init('iamport');
 		
 		IMP.request_pay({
-			pay_method : $(".pay_method").value,
+			pay_method : $(".pay_method").val(),
 			escrow : 1,
 			merchant_uid : 'merchant_' + new Date().getTime(),
 			name: "결제테스트: 결제명", 
@@ -95,7 +95,7 @@ $(function() {
 			if ( rsp.success ) {
 				var msg = '<p>고유ID : ' + rsp.imp_uid + '</p>';
 				msg += '<p>상점 거래ID : ' + rsp.merchant_uid + '</p>';
-				msg += '<p>결제 금액 : ' + rsp.paid_amount + '</p>';
+				msg += '<p>결제 금액 : ' + accounting.formatMoney(rsp.paid_amount, "￦", 0) + '</p>';
 
 				if ( rsp.pay_method === 'card' ) {
 					msg += '<p>카드 승인번호 : ' + rsp.apply_num + '</p>';
