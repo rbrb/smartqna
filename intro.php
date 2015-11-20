@@ -240,7 +240,7 @@ function menu(idx){
 		<?php if(!isset($_SESSION['login_user'])) {?>
 		<li><a href = "userLogIn.php">로그인</a></li>
 		<?php } else {?>
-		<li><a href = "paymentDEMO2.html">결제하기</a></li>
+		<li><a href = "paymentDEMO.html">결제하기</a></li>
 		<?php }?>
 		<span> 사용자이름(ID) </span>
 	</ul>
