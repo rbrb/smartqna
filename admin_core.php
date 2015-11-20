@@ -2,7 +2,7 @@
 	session_start();
 	require 'rb-p533.php';
 	//echo $_SESSION['login_user'];
-	if(!isset($_SESSION['login_user'])) {
+	if(!isset($_SESSION['uid'])) {
 	//if(!session_is_registered("uid")){
 		header("location:admin.php");
 	}

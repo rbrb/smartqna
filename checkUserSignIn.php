@@ -1,7 +1,7 @@
 <?php
 require 'rb-p533.php';
 R::setup( 'mysql:host=localhost;dbname=smartqna',
-              'root', '' );
+              'root', 'denters0318' );
 
 $user = R::dispense('user');
 $uid = $_POST['uid'];

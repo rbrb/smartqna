@@ -1,13 +1,13 @@
 <?php
 session_start();
 require 'rb-p533.php';
-if(!isset($_SESSION['login_user'])) {
+if(!isset($_SESSION['aid'])) {
 //if (! session_is_registered ( "aid" ) || !isset($_SESSION['login_user']) ) {
 	header ( "location:agent.php" );
 }
 
-R::setup ( 'mysql:host=localhost;dbname=smartqna', 'root', '' );
-$aid	= $_SESSION['login_user'];
+R::setup ( 'mysql:host=localhost;dbname=smartqna', 'root', 'denters0318' );
+$aid	= $_SESSION['aid'];
 $agent = R::findOne('agent',"aid = '$aid'");
 ?>
 

@@ -1,3 +1,7 @@
+<?php
+session_start();
+require 'rb-p533.php';
+?>
 <!DOCTYPE html>
 <html>
 
@@ -226,10 +230,19 @@ function menu(idx){
 	<ul class="nav">
 		<li id="active"><a onclick="menu(0)" id="current">홈</a></li>
 		<li><a onclick="menu(1)">서비스</a></li>
+<!--
 		<li><a onclick="menu(2)">콘텐츠</a></li>
+-->
 		<li><a onclick="menu(3)">선생님</a></li>
-		<li><a onclick="menu(4)">가격 </a></li>
-		<li><a onclick="menu(5)">회사소개</a></li>
+<!--		<li><a onclick="menu(4)">가격 </a></li>
+-->
+		<li><a onclick="menu(4)">회사소개</a></li>
+		<?php if(!isset($_SESSION['login_user'])) {?>
+		<li><a href = "userLogIn.php">로그인</a></li>
+		<?php } else {?>
+		<li><a href = "paymentDEMO2.html">결제하기</a></li>
+		<?php }?>
+		<span> 사용자이름(ID) </span>
 	</ul>
 </div>
 

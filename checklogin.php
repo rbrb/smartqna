@@ -2,7 +2,7 @@
 
 require 'rb-p533.php';
 R::setup( 'mysql:host=localhost;dbname=smartqna',
-                  'root', '' );
+                  'root', 'denters0318' );
 if($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	$id 	= $_POST["id"];
@@ -12,6 +12,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 		$user = R::findOne('user',"uid = '$id' AND pass = PASSWORD('$pass') AND usertype ='10'");
 		if(isset($user)){
 			session_start();
+			$_SESSION['uid'] = $id;
 			$_SESSION['login_user'] = $id;
 			session_write_close();
 			header("location: admin_core.php");
@@ -28,6 +29,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
 		$agent = R::findOne('agent',"aid = '$id' AND pass = PASSWORD('$pass')");
 		if(isset($agent)){
 			session_start();
+			$_SESSION['aid'] = $id;
 			$_SESSION['login_user'] = $id;
 			session_write_close();
 			header("location: basicInfo.php");
